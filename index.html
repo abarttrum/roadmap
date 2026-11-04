@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>Alex Barttrum: Career roadmap</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#1d2a26;--mute:#5d6b65;--line:#d5d9d0;--paper:#fbfaf5;--green:#17624f;--gray:#a9b3ad;--amber:#a86507;--amberbg:#fdf3df}
+body{font-family:"Avenir Next",-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;color:var(--ink);background:var(--paper);line-height:1.45;font-size:17px}
+main{max-width:920px;margin:0 auto;padding:32px 20px 48px}
+.eyebrow{font:12px Menlo,Consolas,monospace;letter-spacing:.05em;color:var(--mute);text-transform:uppercase}
+h1{font-size:clamp(30px,6vw,44px);line-height:1.08;margin:6px 0 10px;letter-spacing:-.01em}
+h1 span{color:var(--green)}
+h2{font-size:14px;letter-spacing:.07em;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:4px;margin:34px 0 10px}
+a{color:var(--green)}
+.row{display:grid;grid-template-columns:190px 1fr;gap:4px 16px;padding:11px 0;border-bottom:1px solid var(--line)}
+.row b{display:block}.row i{font-style:normal;font-size:14px;color:var(--mute);display:block}
+.track{grid-column:1/-1;position:relative;height:10px;background:#eceee7;margin-top:4px}
+.track span{position:absolute;top:0;bottom:0;background:var(--gray)}
+.track span.live{background:var(--green)}.track span.next{background:var(--amber)}
+.dt{font:12px Menlo,Consolas,monospace;color:var(--mute);grid-column:1/-1}
+@media(max-width:620px){.row{grid-template-columns:1fr}}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0 26px}
+.grid h2{margin-top:26px}
+li{list-style:none;margin-bottom:9px}
+s{text-decoration-color:var(--amber);color:var(--mute);font-weight:600}
+table{border-collapse:collapse;width:100%}td{padding:7px 12px 7px 0;border-bottom:1px solid var(--line);vertical-align:top}td:first-child{color:var(--mute);width:38%}
+.bug{background:var(--amberbg);border:2px dashed var(--amber);padding:16px 18px;margin-top:30px;border-radius:4px}
+.bug .hd{font:700 12px Menlo,Consolas,monospace;color:var(--amber)}.bug h3{font-size:22px;margin:4px 0 6px}.bug p{margin-bottom:6px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.card{display:block;border:1px solid var(--ink);padding:12px 14px;text-decoration:none;color:var(--ink);border-radius:3px;background:#fff}
+.card b{display:block;color:var(--green)}.card span{font-size:15px}
+pre{background:#fff;border:1px solid var(--line);padding:12px;font:12.5px/1.45 Menlo,Consolas,monospace;overflow-x:auto;margin-top:10px}
+details{margin-top:14px}summary{cursor:pointer;font-weight:600}
+footer{margin-top:36px;padding-top:10px;border-top:1px solid var(--ink);font-size:14px;color:var(--mute)}
+</style></head><body><main>
+<div class="eyebrow">Career roadmap · Status date Nov 3, 2026</div>
+<h1>Alex Barttrum: <span>the project plan to go-live</span></h1>
+<p>I have led software rollouts from kickoff to go-live, and I work inside a practice on the EHR and claims data those rollouts depend on. Written for the Keebler Health Implementation Manager application.</p>
+
+<h2>Proof of work</h2>
+<div class="cards">
+<a class="card" href="sample_exception_report.txt"><b>Exception report</b><span>What the customer gets back: 44 rows, 13 errors, 2 warnings, sorted by who has to act.</span></a>
+<a class="card" href="roster_validator.py"><b>Roster validator</b><span>Python script. Spec lives in one block, so a new customer means a new spec, not new code.</span></a>
+<a class="card" href="synthetic_roster.csv"><b>Synthetic roster</b><span>Made-up test file with defects planted on purpose. No real people.</span></a>
+<a class="card" href="pilot_playbook.pdf"><b>Pilot playbook</b><span>One page: kickoff, stakeholders, data intake, metrics, risks, and what carries to customer #2.</span></a>
+</div>
+<details><summary>Preview the exception report</summary><pre>ROSTER EXCEPTION REPORT
+========================================================================
+File:      synthetic_roster.csv
+Spec:      Sample roster spec v1 (synthetic, not any real customer&#x27;s)
+Run date:  2026-11-03
+Privacy:   names and birth dates are never printed in this report
+
+Rows read:             44
+Rows ready to load:    31
+Rows held for errors:  13
+Errors / warnings:     13 / 2
+Verdict:               HOLD: fix errors and resend
+
+SUMMARY BY RULE
+------------------------------------------------------------------------
+Rule   Level  Count  What it means                                       
+DATE-1 ERROR  2      Date is not a real date in the spec format
+ATT-1  ERROR  1      Attributed NPI is not on the participant list
+ATT-2  ERROR  1      NPI is on the list, but under a different TIN
+ATT-3  ERROR  1      Member attributed to two providers at the same time
+DATE-2 ERROR  1      Birth date is in the future
+DATE-3 ERROR  1      Attribution ends before it starts
+DUP-1  ERROR  1      Same member, provider and start date listed twice
+NPI-1  ERROR  1      NPI is not 10 digits or has a bad first digit
+NPI-2  ERROR  1      NPI fails the check-digit test (likely a typo)
+REQ-1  ERROR  1      Required field is blank
+TIN-1  ERROR  1      TIN is not 9 digits
+VAL-1  ERROR  1      Value is not one the spec allows
+ATT-4  WARN   1      Attribution starts before the provider joined
+DUP-2  WARN   1      Same name and birth date under two member IDs
+
+WHO NEEDS TO ACT</pre></details>
+
+<h2>Timeline: shipped, live and next</h2>
+<div class="row"><div><b>Smart Wash LLC</b><i>Founder / Owner</i></div><div>Built a service business from scratch to 30+ employees. Owned hiring, operations and the P&amp;L.</div><div class="dt">Nov 2017 to Apr 2022</div><div class="track"><span class="" style="left:0.9%;width:48.2%"></span></div></div>
+<div class="row"><div><b>Quinable</b><i>Customer Success Manager</i></div><div>Cut churn 10% and raised customer lifetime value 15% by acting on at-risk patterns in account data.</div><div class="dt">Apr 2021 to Jun 2022</div><div class="track"><span class="" style="left:38.2%;width:12.7%"></span></div></div>
+<div class="row"><div><b>Loeb.nyc</b><i>Senior CSM</i></div><div>Owned retention and growth for complex B2B accounts, onboarding through renewal.</div><div class="dt">Jul 2022 to Mar 2024</div><div class="track"><span class="" style="left:51.8%;width:18.2%"></span></div></div>
+<div class="row"><div><b>Scale Computing</b><i>CS Implementation Manager</i></div><div>Led customer migrations, kickoff through go-live. Wrote the playbooks that made them repeatable.</div><div class="dt">Apr 2024 to Jun 2026</div><div class="track"><span class="" style="left:70.9%;width:23.6%"></span></div></div>
+<div class="row"><div><b>Mind Mechanics</b><i>Practice Manager, outpatient psych</i></div><div>Own the revenue cycle. Corrected a payer mix leadership was misreading; reconciliation found 12 missing remittances.</div><div class="dt">Aug 2025 to now</div><div class="track"><span class="live" style="left:85.5%;width:14.5%"></span></div></div>
+<div class="row"><div><b>Benchmark Gensuite</b><i>CSM, Enterprise SaaS</i></div><div>17 enterprise accounts, $2.2M ARR, the most of any CSM in the division, including its largest customer.</div><div class="dt">Dec 2025 to now</div><div class="track"><span class="live" style="left:89.1%;width:10.9%"></span></div></div>
+<div class="row"><div><b>Keebler Health</b><i>Implementation Manager, next release</i></div><div><b>D1-30</b> Learn the platform, shadow pilots, map where intake stalls. <b>D31-60</b> Own a pilot end to end. <b>D61-90</b> Turn it into the playbook for customer #2.</div></div>
+
+<div class="grid">
+<section><h2>Deprecated</h2><ul>
+<li><s>Doing it all myself</s><br>Now: SOPs and staff training</li>
+<li><s>Trusting a field's label</s><br>Now: checking the source. One payer ID was covering Medicaid and commercial</li>
+<li><s>Reports only one person can explain</s><br>Now: reconciled to deposits across two banks</li>
+<li><s>Finding out at renewal</s><br>Now: usage and risk findings to sponsors, with tradeoffs</li>
+</ul></section>
+<section><h2>Building now</h2><ul>
+<li><b>Daily Command Brief.</b> EHR aging exports in, prioritized daily work queue out. Built with Claude Code.</li>
+<li><b>AI agent designs</b> for payer portal work and prior auth packaging, with reconciliation checks and human review.</li>
+<li><b>AI vetting.</b> Every tool checked for HIPAA and BAA coverage before practice use.</li>
+</ul></section>
+</div>
+
+<h2>How Keebler fits</h2>
+<table>
+<tr><td>Pilot to adoption</td><td>Scale Computing migrations, kickoff through go-live</td></tr>
+<tr><td>Roster specs, file transport</td><td>Validator and data intake checklist, above</td></tr>
+<tr><td>EHR data</td><td>Fixed Valant and Waystar gaps, like add-on units the export drops</td></tr>
+<tr><td>Clinician to executive</td><td>Trained clinical staff on new workflows; presented to exec sponsors</td></tr>
+<tr><td>Second customer easier</td><td>Scale playbooks, and the pilot playbook above</td></tr>
+<tr><td>LLMs build capacity</td><td>Daily Command Brief, and this packet</td></tr>
+</table>
+
+<div class="bug"><div class="hd">BUG-001 · OPEN · SEV: MEDIUM</div>
+<h3>No live attribution roster yet</h3>
+<p><b>Repro:</b> search my resume for "attribution," "FHIR" or "HL7." 0 results.</p>
+<p><b>Impact:</b> I know EHR exports, claims and eligibility. Attribution logic is new to me, and this role depends on it.</p>
+<p><b>Workaround:</b> built the check first, with Claude Code, on made-up data. See proof of work above.</p>
+<p><b>Fix:</b> learn your spec in D1-30, run it live in D31-60.</p></div>
+
+<footer><p><b>Built with AI:</b> this roadmap and its companion tools were built with Claude Code, with my review. All sample data is synthetic.</p>
+<p><a href="roadmap_v2.pdf">One-page PDF</a> · linkedin.com/in/alexbajzatt · bajzattalex@gmail.com</p></footer>
+</main></body></html>

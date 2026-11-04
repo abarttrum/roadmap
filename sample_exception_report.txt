@@ -1,0 +1,55 @@
+ROSTER EXCEPTION REPORT
+========================================================================
+File:      synthetic_roster.csv
+Spec:      Sample roster spec v1 (synthetic, not any real customer's)
+Run date:  2026-11-03
+Privacy:   names and birth dates are never printed in this report
+
+Rows read:             44
+Rows ready to load:    31
+Rows held for errors:  13
+Errors / warnings:     13 / 2
+Verdict:               HOLD: fix errors and resend
+
+SUMMARY BY RULE
+------------------------------------------------------------------------
+Rule   Level  Count  What it means                                       
+DATE-1 ERROR  2      Date is not a real date in the spec format
+ATT-1  ERROR  1      Attributed NPI is not on the participant list
+ATT-2  ERROR  1      NPI is on the list, but under a different TIN
+ATT-3  ERROR  1      Member attributed to two providers at the same time
+DATE-2 ERROR  1      Birth date is in the future
+DATE-3 ERROR  1      Attribution ends before it starts
+DUP-1  ERROR  1      Same member, provider and start date listed twice
+NPI-1  ERROR  1      NPI is not 10 digits or has a bad first digit
+NPI-2  ERROR  1      NPI fails the check-digit test (likely a typo)
+REQ-1  ERROR  1      Required field is blank
+TIN-1  ERROR  1      TIN is not 9 digits
+VAL-1  ERROR  1      Value is not one the spec allows
+ATT-4  WARN   1      Attribution starts before the provider joined
+DUP-2  WARN   1      Same name and birth date under two member IDs
+
+WHO NEEDS TO ACT
+------------------------------------------------------------------------
+ 10  Customer data contact
+  4  Customer contract owner
+  1  Implementation lead + customer
+
+DETAIL
+------------------------------------------------------------------------
+Line  Member      Rule    Field              Detail
+4     SYN000003   REQ-1   last_name          blank
+6     SYN000005   NPI-1   attributed_npi     got '90000000'
+8     SYN000007   NPI-2   attributed_npi     got '9000000032'
+10    SYN000009   DATE-1  dob                should look like 2026-01-31
+12    SYN000011   DATE-1  attribution_start  should look like 2026-01-31
+14    SYN000013   DATE-2  dob                date hidden
+16    SYN000015   VAL-1   program            got 'ACO'
+18    SYN000017   TIN-1   attributed_tin     got '90-0000011'
+20    SYN000019   ATT-1   attributed_npi     got '9000000999'
+22    SYN000021   ATT-2   attributed_tin     file 900000022, list 900000011
+24    SYN000023   DATE-3  attribution_end    2026-01-01 to 2025-12-31
+26    SYN000025   ATT-4   attribution_start  starts 2025-06-01, joined 2026-01-01
+32    SYN000031   DUP-2   member_id          also SYN000131, line 44
+42    SYN000027   DUP-1   member_id          copy of line 28
+43    SYN000029   ATT-3   attributed_npi     overlaps line 30
